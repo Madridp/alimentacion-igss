@@ -1,41 +1,41 @@
-ibm,nombre,cargo,servicio
-33499,Joel Abdías Sis García,,
-33421,David Antonio Salazar Arriola,,
-1004282,Aylwin Obed Lemus Lemus,,
-2009362,Mynor Jose Erazo Bautista,,
-2009616,Lucylena Yamileth Ramirez Tenas,,
-1005957,Leslie Samantha Cerna Veliz,,
-2009826,Carla Siu Mei Luna Quinto,,
-34155,Deysi Yaneth Resuleu Claros De Ayala,,
-1002882,Marleni Elidbeth Monroy Roque,,
-1003010,Eva Judith Fajardo Cerritos,,
-1005904,Silvia Verónica Acevedo Sagastume,,
-1005933,Berlin Elvira Felipe Hernandez,,
-2005655,Adilia Margueli Martinez Agustin,,
-38303,Jose Alexander Diaz Mendez,,
-2007996,Edvin Alexander Diaz Flores,,
-28533,Sofia Elizabeth Flores Monroy,,
-2007582,Andrea Selena Arriaza Lopez,,
-2008155,Kandy Melina Garcia Martinez,,
-2001211,Ingris Llaneth Zelaya Morales,,
-1005903,Sesibel Del Rosario Diaz Lopez,,
-34950,Blanca Celita López Gregorio,,
-29248,Oralia Del Carmen Moscoso Urrutia,,
-2007673,Sandy Maoli Martinez Perez,,
-1002736,Rosa Yesenia Aguirre Osorio De España,,
-1003405,Dina Del Rosario Antón Almazán De Pérez,,
-2004969,Nely Esperanza Ventura Ramírez De Vásquez,,
-32779,Deysi Odeth Marroquin Tejada,,
-2002516,Kimberly Mishel Archila Cordero,,
-2006516,Ingrid Yaritza Flores Pérez,,
-2007236,Marjorie Daniela Zabaleta Lima,,
-2003064,Daniel Enrique Carrazco Lopez,,
-30495,Mario Anibal Arriaza Ajurin,,
-37381,Hugo Ramiro Orozco Aguirre,,
-37630,Byron Estuardo Lopez Lucero,,
-37289,Vicente Zacarías Gabriel,,
-1000242,Cristian Roberto Revolorio Lemus,,
-2008273,Alex Ariel Najera Agustin,,
-35510,Juan Angel Lopez Ramos,,
-24965,Enma Lorena Contreras Velasquez De Coronado,,
-34811,Rubenia Virginia Monroy Lopez,,
+ibm,nombre,cargo
+33499,Joel Abdías Sis García,Médico
+33421,David Antonio Salazar Arriola,Médico
+1004282,Aylwin Obed Lemus Lemus,Médico
+2009362,Mynor Jose Erazo Bautista,Médico
+2009616,Lucylena Yamileth Ramirez Tenas,Médico
+1005957,Leslie Samantha Cerna Veliz,Médico
+2009826,Carla Siu Mei Luna Quinto,Médico
+34155,Deysi Yaneth Resuleu Claros De Ayala,Enfermero
+1002882,Marleni Elidbeth Monroy Roque,Enfermero
+1003010,Eva Judith Fajardo Cerritos,Enfermero
+1005904,Silvia Verónica Acevedo Sagastume,Enfermero
+1005933,Berlin Elvira Felipe Hernandez,Enfermero
+2005655,Adilia Margueli Martinez Agustin,Enfermero
+38303,Jose Alexander Diaz Mendez,Enfermero
+2007996,Edvin Alexander Diaz Flores,Enfermero
+28533,Sofia Elizabeth Flores Monroy,Enfermero
+2007582,Andrea Selena Arriaza Lopez,Enfermero
+2008155,Kandy Melina Garcia Martinez,Enfermero
+2001211,Ingris Llaneth Zelaya Morales,Enfermero
+1005903,Sesibel Del Rosario Diaz Lopez,Enfermero
+34950,Blanca Celita López Gregorio,Enfermero
+29248,Oralia Del Carmen Moscoso Urrutia,Enfermero
+2007673,Sandy Maoli Martinez Perez,Enfermero
+1002736,Rosa Yesenia Aguirre Osorio De España,Enfermero
+1003405,Dina Del Rosario Antón Almazán De Pérez,Enfermero
+2004969,Nely Esperanza Ventura Ramírez De Vásquez,Enfermero
+32779,Deysi Odeth Marroquin Tejada,Enfermero
+2002516,Kimberly Mishel Archila Cordero,Enfermero
+2006516,Ingrid Yaritza Flores Pérez,Enfermero
+2007236,Marjorie Daniela Zabaleta Lima,Enfermero
+2003064,Daniel Enrique Carrazco Lopez,Enfermero
+30495,Mario Anibal Arriaza Ajurin,Enfermero
+37381,Hugo Ramiro Orozco Aguirre,Piloto
+37630,Byron Estuardo Lopez Lucero,Piloto
+37289,Vicente Zacarías Gabriel,Piloto
+1000242,Cristian Roberto Revolorio Lemus,Agente De Seguridad
+2008273,Alex Ariel Najera Agustin,Agente De Seguridad
+35510,Juan Angel Lopez Ramos,Agente De Seguridad
+24965,Enma Lorena Contreras Velasquez De Coronado,Camarero
+34811,Rubenia Virginia Monroy Lopez,Camarero

@@ -14,15 +14,17 @@ Está en **`public/empleados.csv`** (ya cargada con los 40 empleados del LISTADO
 Formato:
 
 ```
-ibm,nombre,cargo,servicio
-33499,Joel Abdías Sis García,,
-34811,Rubenia Virginia Monroy Lopez,,
+ibm,nombre,cargo
+33499,Joel Abdías Sis García,Médico
+34811,Rubenia Virginia Monroy Lopez,Camarero
 ```
 
-**Agregar más empleados:** abre el CSV en Excel, agrega filas `IBM,NOMBRE,,`,
+**Agregar más empleados:** abre el CSV en Excel, agrega filas `IBM,NOMBRE,CARGO`,
 guarda como **CSV UTF-8** y súbelo al repositorio (Vercel redespliega solo).
-`cargo` y `servicio` son opcionales: si los llenas, se autocompletan en el
-formulario y en el documento.
+
+El **cargo** viene de la base y se autocompleta con el IBM. El **servicio** NO va
+en el CSV: el solicitante lo elige en el formulario (lista editable en
+`src/lib/config.js` → `servicios`).
 
 ## 2. Probar local
 

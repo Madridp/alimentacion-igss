@@ -20,7 +20,6 @@ export async function cargarEmpleados() {
       ibm,
       nombre: (fila.nombre ?? "").trim(),
       cargo: (fila.cargo ?? "").trim(),
-      servicio: (fila.servicio ?? "").trim(),
     };
   }
   return mapa;
@@ -34,6 +33,6 @@ export function buscarEmpleado(mapa, ibm) {
 
 // =============================================================
 //  Para agregar/editar empleados: edita public/empleados.csv
-//  Columnas: ibm,nombre,cargo,servicio  (cargo y servicio son opcionales;
-//  si los llenas se autocompletan en el formulario y el documento).
+//  Columnas: ibm,nombre,cargo
+//  El "servicio" NO va aquí: el solicitante lo elige en el formulario.
 // =============================================================

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { config } from "@/lib/config";
 import { cargarEmpleados, buscarEmpleado } from "@/lib/empleados";
 
@@ -13,14 +13,7 @@ const fmtFecha = (iso) => {
   return `${d}/${m}/${a}`;
 };
 
-const inicial = {
-  fecha: hoy(),
-  cargo: "",
-  servicio: "",
-  tipo_dieta: "Libre",
-  tiempos: [],
-  justificacion: "",
-};
+const inicial = { fecha: hoy(), tipo_dieta: "Libre", servicio: "", tiempos: [], justificacion: "" };
 
 export default function FormularioPersonal() {
   const [catalogo, setCatalogo] = useState(null);
@@ -30,7 +23,7 @@ export default function FormularioPersonal() {
   const [sinResultado, setSinResultado] = useState(false);
   const [d, setD] = useState(inicial);
   const [errores, setErrores] = useState({});
-  const [modo, setModo] = useState("form"); // form | preview
+  const [modo, setModo] = useState("form");
 
   useEffect(() => {
     cargarEmpleados().then(setCatalogo).catch(() =>
@@ -45,7 +38,6 @@ export default function FormularioPersonal() {
     const enc = buscarEmpleado(catalogo, v);
     setEmpleado(enc);
     setSinResultado(v.trim().length > 0 && !enc);
-    if (enc) setD((s) => ({ ...s, cargo: enc.cargo || s.cargo, servicio: enc.servicio || s.servicio }));
   }
 
   const set = (campo) => (e) => setD((s) => ({ ...s, [campo]: e.target.value }));
@@ -61,25 +53,20 @@ export default function FormularioPersonal() {
     const err = {};
     if (!empleado) err.ibm = `Escribe un ${etiquetaCodigo} válido.`;
     if (!d.fecha) err.fecha = "Elige la fecha.";
+    if (!d.servicio) err.servicio = "Elige un servicio.";
     if (d.tiempos.length === 0) err.tiempos = "Marca al menos un tiempo de comida.";
     setErrores(err);
     return Object.keys(err).length === 0;
   }
 
   function verPreview() {
-    if (validar()) {
-      setModo("preview");
-      window.scrollTo(0, 0);
-    }
+    if (validar()) { setModo("preview"); window.scrollTo(0, 0); }
   }
 
   function imprimir() {
     const prev = document.title;
     document.title = `Solicitud_Personal_${empleado.nombre}`;
-    const restaurar = () => {
-      document.title = prev;
-      window.removeEventListener("afterprint", restaurar);
-    };
+    const restaurar = () => { document.title = prev; window.removeEventListener("afterprint", restaurar); };
     window.addEventListener("afterprint", restaurar);
     window.print();
   }
@@ -87,7 +74,6 @@ export default function FormularioPersonal() {
   if (modo === "preview") {
     return (
       <main className="min-h-screen bg-[var(--surface)] py-6">
-        {/* barra de acciones (no se imprime) */}
         <div className="no-print mx-auto mb-5 flex max-w-[820px] items-center justify-between gap-3 px-4">
           <button onClick={() => setModo("form")}
             className="rounded-xl border border-[var(--line)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--ink)] transition hover:bg-[var(--surface)]">
@@ -98,14 +84,12 @@ export default function FormularioPersonal() {
             Imprimir / Guardar PDF
           </button>
         </div>
-
         <p className="no-print mx-auto mb-4 max-w-[820px] px-4 text-xs text-[var(--muted)]">
           Consejo: en el cuadro de impresión, en “Más ajustes” puedes desactivar “Encabezados y pies de página”
           y elegir “Guardar como PDF” en Destino.
         </p>
-
         <div className="px-4">
-          <DocumentoIGSS ibm={empleado.ibm} nombre={empleado.nombre} d={d} />
+          <DocumentoIGSS empleado={empleado} d={d} />
         </div>
       </main>
     );
@@ -120,12 +104,8 @@ export default function FormularioPersonal() {
             <img src="/logo-igss.png" alt="IGSS" className="h-11 w-auto" />
             <span className="pr-1 font-display text-sm font-bold text-[var(--brand-dark)]">IGSS</span>
           </div>
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/70">
-            {config.institucion.nombre}
-          </p>
-          <h1 className="mt-2 font-display text-3xl font-bold leading-tight sm:text-4xl">
-            Solicitud de alimentación
-          </h1>
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/70">{config.institucion.nombre}</p>
+          <h1 className="mt-2 font-display text-3xl font-bold leading-tight sm:text-4xl">Solicitud de alimentación</h1>
           <p className="mt-2 max-w-md text-sm text-white/80">
             Escribe tu {etiquetaCodigo}, completa los datos y genera la solicitud para imprimir.
           </p>
@@ -149,15 +129,14 @@ export default function FormularioPersonal() {
                 <div className="flex items-center gap-2 text-emerald-700">
                   <Check /><span className="text-sm font-semibold">Empleado encontrado</span>
                 </div>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div className="mt-3 grid gap-3 sm:grid-cols-3">
                   <Dato etiqueta="Nombre" valor={empleado.nombre} />
                   <Dato etiqueta={etiquetaCodigo} valor={empleado.ibm} />
+                  <Dato etiqueta="Cargo" valor={empleado.cargo || "—"} />
                 </div>
               </div>
             )}
-            {sinResultado && (
-              <Aviso tono="alerta">No encontramos ese {etiquetaCodigo}. Verifica el número.</Aviso>
-            )}
+            {sinResultado && <Aviso tono="alerta">No encontramos ese {etiquetaCodigo}. Verifica el número.</Aviso>}
 
             <fieldset disabled={!empleado} className={empleado ? "space-y-5" : "space-y-5 opacity-50"}>
               <div className="grid gap-5 sm:grid-cols-2">
@@ -171,14 +150,10 @@ export default function FormularioPersonal() {
                 </Campo>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <Campo label="Cargo" hint="opcional">
-                  <input type="text" value={d.cargo} onChange={set("cargo")} placeholder="Ej. Camarero" className={inputCls()} />
-                </Campo>
-                <Campo label="Servicio" hint="opcional">
-                  <input type="text" value={d.servicio} onChange={set("servicio")} placeholder="Ej. Encamamiento" className={inputCls()} />
-                </Campo>
-              </div>
+              <Campo label="Servicio" error={errores.servicio} requerido>
+                <RadioCards opciones={config.servicios} valor={d.servicio}
+                  onChange={(v) => setD((s) => ({ ...s, servicio: v }))} />
+              </Campo>
 
               <Campo label="Tiempos de comida solicitados" error={errores.tiempos} requerido>
                 <div className="flex flex-wrap gap-2">
@@ -186,12 +161,9 @@ export default function FormularioPersonal() {
                     const on = d.tiempos.includes(t);
                     return (
                       <button type="button" key={t} onClick={() => toggleTiempo(t)}
-                        className={
-                          "rounded-xl border px-4 py-2.5 text-sm font-medium transition " +
-                          (on
-                            ? "border-[var(--brand)] bg-[var(--brand)] text-white"
-                            : "border-[var(--line)] bg-white text-[var(--ink)] hover:bg-[var(--surface)]")
-                        }>
+                        className={"rounded-xl border px-4 py-2.5 text-sm font-medium transition " +
+                          (on ? "border-[var(--brand)] bg-[var(--brand)] text-white"
+                              : "border-[var(--line)] bg-white text-[var(--ink)] hover:bg-[var(--surface)]")}>
                         {on ? "✓ " : ""}{t}
                       </button>
                     );
@@ -221,7 +193,7 @@ export default function FormularioPersonal() {
 }
 
 /* ============ DOCUMENTO OFICIAL ============ */
-function DocumentoIGSS({ ibm, nombre, d }) {
+function DocumentoIGSS({ empleado, d }) {
   return (
     <div id="documento-imprimible" className="hoja">
       <div className="doc-head">
@@ -236,16 +208,14 @@ function DocumentoIGSS({ ibm, nombre, d }) {
       </div>
       <hr className="regla-gruesa" />
 
-      <div className="doc-fecha">
-        <b>Fecha:</b><span className="linea">{fmtFecha(d.fecha)}</span>
-      </div>
+      <div className="doc-fecha"><b>Fecha:</b><span className="linea">{fmtFecha(d.fecha)}</span></div>
 
       <p className="doc-intro">Atentamente solicito a usted se brinde alimentación a:</p>
       <div className="doc-subseccion">Datos del solicitante</div>
 
-      <div className="doc-campo"><span className="et">Nombre completo:</span><span className="val">{nombre}</span></div>
-      <div className="doc-campo"><span className="et">No. empleado:</span><span className="val">{ibm}</span></div>
-      <div className="doc-campo"><span className="et">Cargo:</span><span className="val">{d.cargo}</span></div>
+      <div className="doc-campo"><span className="et">Nombre completo:</span><span className="val">{empleado.nombre}</span></div>
+      <div className="doc-campo"><span className="et">No. empleado:</span><span className="val">{empleado.ibm}</span></div>
+      <div className="doc-campo"><span className="et">Cargo:</span><span className="val">{empleado.cargo}</span></div>
       <div className="doc-campo"><span className="et">Servicio:</span><span className="val">{d.servicio}</span></div>
       <div className="doc-campo"><span className="et">Tipo de dieta:</span><span className="val">{d.tipo_dieta}</span></div>
 
@@ -253,8 +223,7 @@ function DocumentoIGSS({ ibm, nombre, d }) {
       <div className="doc-checks">
         {config.tiemposComida.map((t) => (
           <span className="doc-check" key={t}>
-            <span className={"doc-box" + (d.tiempos.includes(t) ? " on" : "")} />
-            {t}
+            <span className={"doc-box" + (d.tiempos.includes(t) ? " on" : "")} />{t}
           </span>
         ))}
       </div>
@@ -267,7 +236,7 @@ function DocumentoIGSS({ ibm, nombre, d }) {
       <div className="doc-firmas">
         <div className="doc-firma">
           <div className="linea" /><div className="rol">Firma y sello</div>
-          <div className="nombre">{nombre}</div><div className="sub">Solicitante</div>
+          <div className="nombre">{empleado.nombre}</div><div className="sub">Solicitante</div>
         </div>
         <div className="doc-firma">
           <div className="linea" /><div className="rol">Firma y sello</div>
@@ -285,12 +254,29 @@ function DocumentoIGSS({ ibm, nombre, d }) {
 }
 
 /* ============ piezas ============ */
-function Check() {
+function RadioCards({ opciones, valor, onChange }) {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
+    <div className="grid gap-2.5 sm:grid-cols-2">
+      {opciones.map((op) => {
+        const on = valor === op;
+        return (
+          <button type="button" key={op} onClick={() => onChange(op)} aria-pressed={on}
+            className={"flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-medium transition " +
+              (on ? "border-[var(--brand)] bg-[var(--brand)]/[0.06] text-[var(--brand-dark)] ring-1 ring-[var(--brand)]"
+                  : "border-[var(--line)] bg-white text-[var(--ink)] hover:bg-[var(--surface)]")}>
+            <span className={"flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 " +
+              (on ? "border-[var(--brand)]" : "border-[var(--line)]")}>
+              {on && <span className="h-2.5 w-2.5 rounded-full bg-[var(--brand)]" />}
+            </span>
+            {op}
+          </button>
+        );
+      })}
+    </div>
   );
+}
+function Check() {
+  return (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>);
 }
 function Aviso({ tono = "alerta", children }) {
   const cls = tono === "error" ? "bg-rose-50 text-rose-700 ring-rose-200" : "bg-amber-50 text-amber-800 ring-amber-200";
@@ -300,8 +286,7 @@ function Campo({ label, hint, error, requerido, children }) {
   return (
     <label className="block">
       <span className="mb-1.5 flex items-baseline gap-2 text-sm font-medium text-[var(--ink)]">
-        {label}
-        {requerido && <span className="text-[var(--brand-accent)]">*</span>}
+        {label}{requerido && <span className="text-[var(--brand-accent)]">*</span>}
         {hint && <span className="text-xs font-normal text-[var(--muted)]">({hint})</span>}
       </span>
       {children}
@@ -321,9 +306,7 @@ function Select({ value, onChange, children }) {
   return <select value={value} onChange={onChange} className={inputCls() + " appearance-none bg-[var(--card)]"}>{children}</select>;
 }
 function inputCls(error) {
-  return [
-    "w-full rounded-xl border bg-[var(--card)] px-4 py-3 text-sm text-[var(--ink)]",
+  return ["w-full rounded-xl border bg-[var(--card)] px-4 py-3 text-sm text-[var(--ink)]",
     "placeholder:text-[var(--muted)]/60 transition focus:border-[var(--brand)] focus:outline-none",
-    error ? "border-rose-300" : "border-[var(--line)]",
-  ].join(" ");
+    error ? "border-rose-300" : "border-[var(--line)]"].join(" ");
 }

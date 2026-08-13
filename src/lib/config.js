@@ -10,11 +10,20 @@ export const config = {
     etiquetaCodigo: "IBM",
   },
 
-  // Tiempos de comida (casillas del documento oficial). Se pueden marcar varios.
+  // Tiempos de comida (casillas del documento). Se pueden marcar varios.
   tiemposComida: ["Desayuno", "Almuerzo", "Cena", "Refacción nocturna"],
 
   // Tipo de dieta
   tiposDieta: ["Libre", "Blanda", "Hiposódica (sin sal)", "Diabética", "Hipograsa", "Líquida"],
+
+  // Servicios que el solicitante puede elegir (selector del formulario)
+  servicios: [
+    "Emergencia",
+    "Hospitalización",
+    "Servicios Varios Piloto",
+    "Servicios Varios Agentes",
+    "Servicios Varios Camareros",
+  ],
 
   pie: {
     texto: "Sistema desarrollado por TECNO INFO",

@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================
+   MARCA / TEMA  ->  cambia estos valores para rebrandeaar
+   (por ejemplo, al morado de Tecnoinfo: #862CA8 / #220A30 / #C04FE6)
+   ============================================================= */
+:root {
+  --brand: #15594a;        /* color principal (botones, encabezado) */
+  --brand-dark: #0e3e33;   /* variante oscura (degradado, hover) */
+  --brand-accent: #e4a33b; /* acento cálido (detalles, foco) */
+
+  --ink: #17211d;          /* texto principal */
+  --muted: #5c6b64;        /* texto secundario */
+  --surface: #f7f6f1;      /* fondo de la página */
+  --card: #ffffff;         /* fondo de tarjetas */
+  --line: #e6e3d9;         /* líneas y bordes suaves */
+}
+
+html {
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Anillo de foco visible y accesible en toda la app */
+*:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+/* Fondo con textura sutil tipo "mantel" para el encabezado */
+.brand-gradient {
+  background:
+    radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--brand-accent) 22%, transparent) 0%, transparent 45%),
+    linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 100%);
+}
+
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

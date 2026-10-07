@@ -25,6 +25,10 @@ export const config = {
     "Servicios Varios Camareros",
   ],
 
+  // Cargos para los que la FECHA y los TIEMPOS de comida son opcionales.
+  // (La comparación no distingue mayúsculas ni tildes.)
+  cargosFlexibles: ["Agente de Seguridad", "Piloto", "Camarero"],
+
   pie: {
     texto: "Sistema desarrollado por TECNO INFO",
     contacto: "WhatsApp +502 5316 0294",

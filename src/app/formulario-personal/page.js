@@ -15,6 +15,12 @@ const fmtFecha = (iso) => {
 
 const inicial = { fecha: hoy(), tipo_dieta: "Libre", servicio: "", tiempos: [], justificacion: "" };
 
+// normaliza para comparar cargos sin importar mayúsculas ni tildes
+const norm = (s) =>
+  (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
+const esCargoFlexible = (cargo) =>
+  (config.cargosFlexibles || []).some((c) => norm(c) === norm(cargo));
+
 export default function FormularioPersonal() {
   const [catalogo, setCatalogo] = useState(null);
   const [errorCatalogo, setErrorCatalogo] = useState("");
@@ -24,6 +30,9 @@ export default function FormularioPersonal() {
   const [d, setD] = useState(inicial);
   const [errores, setErrores] = useState({});
   const [modo, setModo] = useState("form");
+
+  // Para estos cargos, fecha y tiempos de comida son opcionales
+  const flexible = !!empleado && esCargoFlexible(empleado.cargo);
 
   useEffect(() => {
     cargarEmpleados().then(setCatalogo).catch(() =>
@@ -52,9 +61,9 @@ export default function FormularioPersonal() {
   function validar() {
     const err = {};
     if (!empleado) err.ibm = `Escribe un ${etiquetaCodigo} válido.`;
-    if (!d.fecha) err.fecha = "Elige la fecha.";
     if (!d.servicio) err.servicio = "Elige un servicio.";
-    if (d.tiempos.length === 0) err.tiempos = "Marca al menos un tiempo de comida.";
+    if (!flexible && !d.fecha) err.fecha = "Elige la fecha.";
+    if (!flexible && d.tiempos.length === 0) err.tiempos = "Marca al menos un tiempo de comida.";
     setErrores(err);
     return Object.keys(err).length === 0;
   }
@@ -140,7 +149,7 @@ export default function FormularioPersonal() {
 
             <fieldset disabled={!empleado} className={empleado ? "space-y-5" : "space-y-5 opacity-50"}>
               <div className="grid gap-5 sm:grid-cols-2">
-                <Campo label="Fecha" error={errores.fecha} requerido>
+                <Campo label="Fecha" error={errores.fecha} requerido={!flexible} hint={flexible ? "opcional" : undefined}>
                   <input type="date" value={d.fecha} onChange={set("fecha")} className={inputCls(errores.fecha)} />
                 </Campo>
                 <Campo label="Tipo de dieta">
@@ -155,7 +164,7 @@ export default function FormularioPersonal() {
                   onChange={(v) => setD((s) => ({ ...s, servicio: v }))} />
               </Campo>
 
-              <Campo label="Tiempos de comida solicitados" error={errores.tiempos} requerido>
+              <Campo label="Tiempos de comida solicitados" error={errores.tiempos} requerido={!flexible} hint={flexible ? "opcional" : undefined}>
                 <div className="flex flex-wrap gap-2">
                   {config.tiemposComida.map((t) => {
                     const on = d.tiempos.includes(t);
